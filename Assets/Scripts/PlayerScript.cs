@@ -245,4 +245,3 @@ public class PlayerScript : MonoBehaviour {
 	}
 }
 
-    if(hit_found) {
