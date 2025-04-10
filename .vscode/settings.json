@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "assignment2.sln"
+    "dotnet.defaultSolution": "assignment2-with-ignore.sln"
 }

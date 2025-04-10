@@ -22,8 +22,8 @@ public class PlayerScript : MonoBehaviour {
 	Vector3 velocity;
 	Vector3 horizontal_velocity;
 
-	const float horizontal_max_default = 0.1f;
-	float horizontal_max = 0.1f;
+	const float horizontal_max_default = 0.01f;
+	float horizontal_max = 0.01f;
 	
 	Vector3 camera_offset_default = new Vector3 (0.0f, 5.5f, -2.0f);
 	Vector3 camera_offset = new Vector3(0.0f, 5.5f, -2.0f);
@@ -76,13 +76,13 @@ public class PlayerScript : MonoBehaviour {
 		Vector3 input_dir = _pa.GetInputDir();
 		
 		// Add movement direction to player velocity
-		horizontal_velocity += (input_dir * Time.deltaTime);
+		horizontal_velocity += (input_dir * (Time.deltaTime * 0.1f));
 		
 		// Prevent player from moving too fast
 		horizontal_velocity = Vector3.ClampMagnitude(horizontal_velocity, horizontal_max);
 		
 		// Slow down if no move keys are held
-		if(input_dir.magnitude == 0.0f) horizontal_velocity = Vector3.Lerp(horizontal_velocity, Vector3.zero, 0.05f);
+		if(input_dir.magnitude == 0.0f) horizontal_velocity = Vector3.Lerp(horizontal_velocity, Vector3.zero, 0.5f * Time.deltaTime);
 		
 		// Apply new horizontal velocity to total velocity
 		velocity.x = horizontal_velocity.x;
@@ -227,7 +227,7 @@ public class PlayerScript : MonoBehaviour {
 		
 		// Adjust camera position and rotation
 		_cam.transform.rotation = Quaternion.Euler(scene_angles[active_perspective]);
-		_cam.transform.position = Vector3.Lerp(_cam.transform.position, destination, 0.01f);
+		_cam.transform.position = Vector3.Lerp(_cam.transform.position, destination, 0.1f * Time.deltaTime);
 		
 		// If the camera's position is close enough to the destination,
 		// either move on to next perspective or start the game
@@ -241,6 +241,12 @@ public class PlayerScript : MonoBehaviour {
 				SCENE_VIEW = false;
 				_cam.transform.position = start_position + camera_offset_default; 
 			}
+		}
+		
+		// Skip scene view
+		if(_pa.IsSkipPressed()) {
+			SCENE_VIEW = false;
+			_cam.transform.position = start_position + camera_offset_default; 
 		}
 	}
 }

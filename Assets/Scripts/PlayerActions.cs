@@ -6,12 +6,14 @@ public class PlayerActions : MonoBehaviour {
 	InputAction _jump_action;
 	InputAction _reset_action;
 	InputAction _boost_action;
+	InputAction _skip_action;
 
     void Start() {
 		_move_action = InputSystem.actions.FindAction("Move");
 		_jump_action = InputSystem.actions.FindAction("Jump");
 		_reset_action = InputSystem.actions.FindAction("Reset");
 		_boost_action = InputSystem.actions.FindAction("Boost");
+		_skip_action = InputSystem.actions.FindAction("SkipScene");
     }
 
 	public Vector3 GetInputDir() {
@@ -29,5 +31,9 @@ public class PlayerActions : MonoBehaviour {
 
 	public bool IsBoostPressed() {
 		return _boost_action.IsPressed();
+	}
+
+	public bool IsSkipPressed() {
+		return _skip_action.IsPressed();
 	}
 }
